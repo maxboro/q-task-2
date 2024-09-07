@@ -1,0 +1,6 @@
+.venv
+.ipynb_checkpoints
+.idea
+model.pkl
+hidden_test.csv
+train.csv
