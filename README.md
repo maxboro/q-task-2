@@ -38,7 +38,7 @@ To generate predictions from saved model run in terminal:
 $ python predict.py
 ```
 
-The script accepts two optional arguments:
+The script accepts three optional arguments:
 1. `--model-file`: Path to the pre-trained model file. Default is `model.pkl`.
 2. `--test-file`: Path to the CSV file containing the test data. Default is `hidden_test.csv`.
 3. `--output-file`: Path to save the prediction results as a CSV file. Default is `predictions.csv`.
