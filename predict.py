@@ -1,7 +1,8 @@
 """
 Linear Regression model inference script.
 
-This script loads a pre-trained linear regression model and makes predictions on new data provided in a CSV file.
+This script loads a pre-trained linear regression model and makes predictions on new data provided 
+in a CSV file.
 By default, it expects the model to be in 'model.pkl' and the test data to be in 'hidden_test.csv'.
 It saves the predictions to a CSV file, which is 'predictions.csv' by default.
 
@@ -18,8 +19,8 @@ Steps
 
 Preprocessing
 -------------
-The script preprocesses the data by adding a new variable, `var6_power2`, which is the square of the absolute
-value of column '6' in the input data.
+The script preprocesses the data by adding a new variable, `var6_power2`, which is the square of the 
+absolute value of column '6' in the input data.
 
 
 Command-Line Arguments
@@ -36,20 +37,20 @@ $ python predict.py
 or
 $ python predict.py --model-file custom_model.pkl --test-file custom_test_data.csv --output-file custom_predictions.csv
 """
-import numpy as np
-import pandas as pd
 import pickle
 import argparse
+import numpy as np
+import pandas as pd
 
 
-def preprocess(data):
+def preprocess(data: pd.DataFrame) -> pd.DataFrame:
     """Add variable var6_power2 = abs(var6)**2."""
     data_prep = data\
         .assign(var6_power2=lambda df_: np.power(np.abs(df_['6']), 2))
     return data_prep
 
 
-def parse_arguments():
+def parse_arguments() -> argparse.Namespace:
     """Parse command-line arguments."""
     parser = argparse.ArgumentParser(description='Make predictions using a trained linear regression model.')
     parser.add_argument('--model-file', type=str, default='model.pkl', help='Path to the saved model file')
@@ -58,7 +59,7 @@ def parse_arguments():
     return parser.parse_args()
 
 
-def main():
+def main() -> None:
     """Run all."""
     args = parse_arguments()
 

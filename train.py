@@ -1,8 +1,8 @@
 """
 Trains linear regression model.
 
-This script loads data, trains linear regression model and saves it to .pkl file (by default to 'model.pkl').
-By default, it expects the data to be in 'train.csv'.
+This script loads data, trains linear regression model and saves it to .pkl file (by default to 
+'model.pkl'). By default, it expects the data to be in 'train.csv'.
 
 Steps
 -----
@@ -14,8 +14,8 @@ Steps
 
 Preprocessing
 -------------
-The script preprocesses the data by adding a new variable, `var6_power2`, which is the square of the absolute
-value of column '6' in the input data.
+The script preprocesses the data by adding a new variable, `var6_power2`, which is the square of the 
+absolute value of column '6' in the input data.
 
 
 Command-Line Arguments
@@ -30,21 +30,22 @@ $ python train.py
 or
 $ python train.py --train-file custom_train_data.csv --model-file custom_model.pkl
 """
+import pickle
+import argparse
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LinearRegression
-import pickle
-import argparse
 
 
-def preprocess(data):
+
+def preprocess(data: pd.DataFrame) -> pd.DataFrame:
     """Add variable var6_power2 = abs(var6)**2."""
     data_prep = data\
         .assign(var6_power2=lambda df_: np.power(np.abs(df_['6']), 2))
     return data_prep
 
 
-def parse_arguments():
+def parse_arguments() -> argparse.Namespace:
     """Parse command-line arguments."""
     parser = argparse.ArgumentParser(description='Train a linear regression model.')
     parser.add_argument('--train-file', type=str, default='train.csv', help='Path to the training data file')
@@ -52,10 +53,10 @@ def parse_arguments():
     return parser.parse_args()
 
 
-def check_linear_model_weights(model, features_data):
+def check_linear_model_weights(model: LinearRegression, col_names: pd.core.indexes.base.Index) -> None:
     """Display model weights and intercept."""
     features = pd.DataFrame({
-        'Variable': features_data.columns,
+        'Variable': col_names,
         'weight': model.coef_
     })
 
@@ -68,7 +69,7 @@ def check_linear_model_weights(model, features_data):
     print(features.sort_values('weight', ascending=False))
 
 
-def main():
+def main() -> None:
     """Run all."""
     args = parse_arguments()
 
@@ -83,7 +84,7 @@ def main():
     print('Model is trained')
 
     # Check trained model's weights
-    check_linear_model_weights(model, X_train_prep)
+    check_linear_model_weights(model, X_train_prep.columns)
 
     # Save the trained model
     with open(args.model_file, 'wb') as file:
